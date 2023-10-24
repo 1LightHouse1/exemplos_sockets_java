@@ -14,7 +14,7 @@ public class ExemploCliente {
         Scanner scan = new Scanner(System.in);
         try{
             System.out.println("Conectando...");
-            ClienteTCP clienteTCP = new ClienteTCP("10.20.15.240",12000);
+            ClienteTCP clienteTCP = new ClienteTCP("10.20.22.125",12000);
             System.out.println("Conectado!");
             System.out.println("Digite mensagens (sair para encerrar)");
             while (true){
