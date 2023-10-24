@@ -28,7 +28,7 @@ public class ClienteWeb {
     public String processa() throws IOException{
 
 
-        saida.write("GET /hypertext/WWW/TheProject.html HTTP/1.1\r\nHost:"+HOST+"\r\n\r\n");
+        saida.write("GET / HTTP/1.1\r\nHost:"+HOST+"\r\n\r\n");
         saida.flush();
         String msgRecebida = "";
 

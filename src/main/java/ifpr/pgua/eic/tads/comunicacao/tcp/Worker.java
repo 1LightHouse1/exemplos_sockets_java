@@ -1,12 +1,14 @@
 package ifpr.pgua.eic.tads.comunicacao.tcp;
 
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ServidorTCP {
-
+public class Worker implements Runnable {
     private ServerSocket servidor;
     private Socket cliente;
 
@@ -16,10 +18,12 @@ public class ServidorTCP {
 
     private BufferedReader entrada;
     private BufferedWriter saida;
+    private Socket socket;
 
 
-    public ServidorTCP(String HOST,int PORTA)throws IOException {
-        servidor = new ServerSocket(PORTA);
+    public Worker(Socket socket)throws IOException {
+        this.socket = socket;
+        abreFluxos();
     }
 
     public void escuta() throws IOException {
@@ -27,7 +31,7 @@ public class ServidorTCP {
         cliente = servidor.accept();
         System.out.println("Conectado..."+cliente.getInetAddress()+":"+cliente.getPort());
 
-        abreFluxos();
+        //abreFluxos();
 
     }
 
@@ -36,10 +40,10 @@ public class ServidorTCP {
         saida = new BufferedWriter(new OutputStreamWriter(cliente.getOutputStream()));
     }
 
-    public void processa() throws IOException{
-        Thread t = new Thread(new Worker(cliente));
-        t.start(); 
-        /*try{
+    @Override
+    public void run(){
+
+        try{
             while(true){
                 String msgEntrada = entrada.readLine();
 
@@ -76,9 +80,10 @@ public class ServidorTCP {
                 saida.flush();
 
             }
+            fecha();
         }catch (IOException e){
 
-        }*/
+        }
 
     }
 
@@ -87,10 +92,6 @@ public class ServidorTCP {
         saida.close();
         cliente.close();
     }
-
-
-
-
 
 
 }
